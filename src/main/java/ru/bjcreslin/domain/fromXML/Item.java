@@ -1,12 +1,13 @@
 package ru.bjcreslin.domain.fromXML;
 
 import lombok.Builder;
+import lombok.Data;
 
 /**
  * Класс  получаемый из XML для каждой закупки
  */
 @Builder
-
+@Data
 public class Item {
 
     // <author>ФОНД "РЕГИОНАЛЬНЫЙ ФОНД КАПИТАЛЬНОГО РЕМОНТА МНОГОКВАРТИРНЫХ ДОМОВ ТОМСКОЙ ОБЛАСТИ"</author>
