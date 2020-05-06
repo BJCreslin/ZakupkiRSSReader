@@ -9,4 +9,4 @@
 out
 gen
 pom.xml
-src/
+!/src/main/java/ru/bjcreslin/configuration/RSSServerConfiguration.java
