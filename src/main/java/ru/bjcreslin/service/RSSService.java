@@ -1,6 +1,6 @@
 package ru.bjcreslin.service;
 
-import ru.bjcreslin.configuration.RSSServerCoviguration;
+import ru.bjcreslin.configuration.RSSServerConfiguration;
 
 import java.io.IOException;
 import java.net.URI;
@@ -29,7 +29,7 @@ public class RSSService {
                 .newBuilder()
                 .GET()
                 .uri(URI.create(queryString))
-                .setHeader("User-Agent", RSSServerCoviguration.USER_AGENT)
+                .setHeader("User-Agent", RSSServerConfiguration.USER_AGENT)
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         HttpHeaders headers = response.headers();

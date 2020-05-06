@@ -1,7 +1,7 @@
 package ru.bjcreslin;
 
 import org.xml.sax.SAXException;
-import ru.bjcreslin.configuration.RSSServerCoviguration;
+import ru.bjcreslin.configuration.RSSServerConfiguration;
 import ru.bjcreslin.service.RSSService;
 import ru.bjcreslin.service.XMLService;
 
@@ -14,7 +14,7 @@ public class MAin {
         var XML = new XMLService();
 
         try {
-            var response = Rss.getXMLFromServer(RSSServerCoviguration.QUERY_STRING);
+            var response = Rss.getXMLFromServer(RSSServerConfiguration.QUERY_STRING);
             var result = XML.getItemCollection(response);
             result.forEach(System.out::println);
         } catch (IOException e) {
