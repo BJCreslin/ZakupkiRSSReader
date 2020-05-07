@@ -5,7 +5,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import ru.bjcreslin.domain.fromXML.Item;
+import ru.bjcreslin.domain.fromXML.ItemFromXML;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -28,8 +28,8 @@ public class XMLService {
      * @throws IOException
      * @throws SAXException
      */
-    public List<Item> getItemCollection(String xmlString) throws ParserConfigurationException, IOException, SAXException {
-        List<Item> resultList = new ArrayList<>();
+    public List<ItemFromXML> getItemCollection(String xmlString) throws ParserConfigurationException, IOException, SAXException {
+        List<ItemFromXML> resultList = new ArrayList<>();
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         ByteArrayInputStream input = new ByteArrayInputStream(xmlString.getBytes(StandardCharsets.UTF_8));
@@ -40,14 +40,14 @@ public class XMLService {
             Node node = nodeList.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element eElement = (Element) node;
-                Item item = Item.builder()
+                ItemFromXML itemFromXML = ItemFromXML.builder()
                         .author(eElement.getElementsByTagName("author").item(0).getTextContent())
                         .description(eElement.getElementsByTagName("description").item(0).getTextContent())
                         .link(eElement.getElementsByTagName("link").item(0).getTextContent())
                         .title(eElement.getElementsByTagName("title").item(0).getTextContent())
                         .pubDate(eElement.getElementsByTagName("pubDate").item(0).getTextContent())
                         .build();
-                resultList.add(item);
+                resultList.add(itemFromXML);
             }
 
         }

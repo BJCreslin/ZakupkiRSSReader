@@ -32,8 +32,8 @@ public class RSSService {
                 .setHeader("User-Agent", RSSServerConfiguration.USER_AGENT)
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        HttpHeaders headers = response.headers();
-        headers.map().forEach((k, v) -> System.out.println(k + ":" + v));
+      //  HttpHeaders headers = response.headers();
+      // headers.map().forEach((k, v) -> System.out.println(k + ":" + v));
 
         var responseText = response.body();
 

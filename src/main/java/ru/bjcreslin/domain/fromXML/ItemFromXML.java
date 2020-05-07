@@ -8,7 +8,7 @@ import lombok.Data;
  */
 @Builder
 @Data
-public class Item {
+public class ItemFromXML {
 
     // <author>ФОНД "РЕГИОНАЛЬНЫЙ ФОНД КАПИТАЛЬНОГО РЕМОНТА МНОГОКВАРТИРНЫХ ДОМОВ ТОМСКОЙ ОБЛАСТИ"</author>
     private String author;
@@ -23,6 +23,6 @@ public class Item {
 
     @Override
     public String toString() {
-        return "ClassPojo [author = " + author + ", link = " + link + ", description = " + description + ", title = " + title + ", pubDate = " + pubDate + "]";
+        return "Item [author = " + author + ", link = " + link + ", description = " + description + ", title = " + title + ", pubDate = " + pubDate + "]";
     }
 }
