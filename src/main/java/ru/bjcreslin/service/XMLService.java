@@ -24,9 +24,9 @@ public class XMLService {
      *
      * @param xmlString строка - результат запроса RSS ленты
      * @return List Item
-     * @throws ParserConfigurationException
-     * @throws IOException
-     * @throws SAXException
+     * @throws ParserConfigurationException Ошибочки
+     * @throws IOException                  Ошибочки
+     * @throws SAXException                 Ошибочки
      */
     public List<ItemFromXML> getItemCollection(String xmlString) throws ParserConfigurationException, IOException, SAXException {
         List<ItemFromXML> resultList = new ArrayList<>();
@@ -35,22 +35,31 @@ public class XMLService {
         ByteArrayInputStream input = new ByteArrayInputStream(xmlString.getBytes(StandardCharsets.UTF_8));
         Document document = dBuilder.parse(input);
         document.getDocumentElement().normalize();
+        //Раскладываем документ по элементам (нодам) item
         NodeList nodeList = document.getElementsByTagName("item");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
-                Element eElement = (Element) node;
-                ItemFromXML itemFromXML = ItemFromXML.builder()
-                        .author(eElement.getElementsByTagName("author").item(0).getTextContent())
-                        .description(eElement.getElementsByTagName("description").item(0).getTextContent())
-                        .link(eElement.getElementsByTagName("link").item(0).getTextContent())
-                        .title(eElement.getElementsByTagName("title").item(0).getTextContent())
-                        .pubDate(eElement.getElementsByTagName("pubDate").item(0).getTextContent())
-                        .build();
+                ItemFromXML itemFromXML = getItemFromXML((Element) node);
                 resultList.add(itemFromXML);
             }
-
         }
         return resultList;
+    }
+
+    /**
+     * Если нода является Element, то рачленяем её на куски, для объекта ItemFromXML
+     *
+     * @param node нода=Элемент
+     * @return готовый объект
+     */
+    private ItemFromXML getItemFromXML(Element node) {
+        return ItemFromXML.builder()
+                .author(node.getElementsByTagName("author").item(0).getTextContent())
+                .description(node.getElementsByTagName("description").item(0).getTextContent())
+                .link(node.getElementsByTagName("link").item(0).getTextContent())
+                .title(node.getElementsByTagName("title").item(0).getTextContent())
+                .pubDate(node.getElementsByTagName("pubDate").item(0).getTextContent())
+                .build();
     }
 }

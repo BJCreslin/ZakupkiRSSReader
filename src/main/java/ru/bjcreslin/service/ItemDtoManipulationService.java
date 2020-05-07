@@ -1,18 +1,29 @@
 package ru.bjcreslin.service;
 
-import ru.bjcreslin.domain.dto.ItemDto;
+import ru.bjcreslin.domain.fromXML.ItemDto;
 import ru.bjcreslin.domain.fromXML.ItemFromXML;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Сервис манипуляции с объектами ItemDto
  */
 public class ItemDtoManipulationService {
 
+    /**
+     * Метод делает список ItemDto из коллекции ItemFromXML
+     *
+     * @param xmlList коллекция ItemFromXML
+     * @return список ItemDto
+     */
+    public List<ItemDto> createItemDtoCollectionFromItemFromXmlList(List<ItemFromXML> xmlList) {
+        return xmlList.stream().map(this::createNewItemDtoFromItemFromXML).collect(Collectors.toList());
+    }
 
     /**
      * Создаётся новый ItemDto из ItemFromXML
@@ -22,9 +33,7 @@ public class ItemDtoManipulationService {
      */
     public ItemDto createNewItemDtoFromItemFromXML(ItemFromXML itemFromXML) {
         itemFromXML.setDescription(removalUnnecessaryInformationFromDescriptionField(itemFromXML.getDescription()));
-        var newItemDto = copyFileldsFromItemFromXmlToitemDto(itemFromXML);
-
-        return newItemDto;
+        return copyFileldsFromItemFromXmlToitemDto(itemFromXML);
     }
 
     /**
@@ -35,26 +44,21 @@ public class ItemDtoManipulationService {
      */
     private ItemDto copyFileldsFromItemFromXmlToitemDto(ItemFromXML itemFromXML) {
         var dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        var o1 = Arrays.asList(itemFromXML.getDescription().split("<br/>"));
-
-        for (int i = 0; i < o1.size(); i++) {
-            System.out.println(i + "  : " + o1.get(i));
-        }
+        var tempListForManipulation = Arrays.asList(itemFromXML.getDescription().split("<br/>"));
         var linkTemp = itemFromXML.getLink().replace("<link>", "").replace("</link>", "");
-        var newItemDto = ItemDto.builder()
+
+        return ItemDto.builder()
                 .author(itemFromXML.getAuthor())
-                .lawNumber(o1.get(1))  //1  : ПП РФ 615 (Капитальный ремонт)
-                .placementPhase(o1.get(11))
-                .initialContractprice(new BigDecimal(o1.get(8)))
-                .posted(LocalDate.parse(o1.get(9), dateTimeFormatter))
-                .updated(LocalDate.parse(o1.get(10), dateTimeFormatter))
-                .name(o1.get(5))
-                .placementStages(o1.get(2))
+                .lawNumber(tempListForManipulation.get(1))  //1  : ПП РФ 615 (Капитальный ремонт)
+                .placementPhase(tempListForManipulation.get(11))
+                .initialContractprice(new BigDecimal(tempListForManipulation.get(8)))
+                .posted(LocalDate.parse(tempListForManipulation.get(9), dateTimeFormatter))
+                .updated(LocalDate.parse(tempListForManipulation.get(10), dateTimeFormatter))
+                .name(tempListForManipulation.get(5))
+                .placementStages(tempListForManipulation.get(2))
                 .link(linkTemp)
                 .uin(Long.parseUnsignedLong(linkTemp.replace("/epz/order/notice/ea615/view/common-info.html?regNumber=", "")))
                 .build();
-
-        return newItemDto;
     }
 
 
