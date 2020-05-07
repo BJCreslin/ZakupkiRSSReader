@@ -21,8 +21,4 @@ public class ItemFromXML {
     // <pubDate>Mon, 10 Jun 2019 13:32:20 GMT</pubDate>
     private String pubDate;
 
-    @Override
-    public String toString() {
-        return "Item [author = " + author + ", link = " + link + ", description = " + description + ", title = " + title + ", pubDate = " + pubDate + "]";
-    }
 }

@@ -18,11 +18,26 @@ public class ItemDtoManipulationService {
      * @return объект
      */
     public ItemDto createNewItemDtoFromItemFromXML(ItemFromXML itemFromXML) {
-        var newItemDto = new ItemDto();
+        itemFromXML.setDescription(removalUnnecessaryInformationFromDescriptionField(itemFromXML.getDescription()));
+        var newItemDto = copyFileldsFromItemFromXmlToitemDto(itemFromXML);
 
-        var transResult = removalUnnecessaryInformationFromDescriptionField(itemFromXML.getDescription());
+        return newItemDto;
+    }
 
-        var o1 = Arrays.asList(transResult.split("<br/>"));
+    /**
+     * метод превращения данных из данных, полученных в XML, в бизнес данные
+     *
+     * @param itemFromXML исходный "очищенный" объект
+     * @return конечный объект
+     */
+    private ItemDto copyFileldsFromItemFromXmlToitemDto(ItemFromXML itemFromXML) {
+        var o1 = Arrays.asList(itemFromXML.getDescription().split("<br/>"));
+        o1.forEach(System.out::println);
+        var newItemDto = ItemDto.builder()
+                .author(itemFromXML.getAuthor())
+                .lawNumber("gaaa")
+                .build();
+
 
         return newItemDto;
     }
@@ -30,8 +45,9 @@ public class ItemDtoManipulationService {
 
     /**
      * Метод удаления ненужной информации из поля описания Закупки itemFromXML
-     * @param descriptionField  поле описания Закупки itemFromXML- String
-     * @return  "очищенное от мусора" значение String
+     *
+     * @param descriptionField поле описания Закупки itemFromXML- String
+     * @return "очищенное от мусора" значение String
      */
     private String removalUnnecessaryInformationFromDescriptionField(String descriptionField) {
         return descriptionField
