@@ -14,19 +14,23 @@ import java.time.LocalDate;
 @Data
 public class ItemDto {
     // номер закона - ПП РФ 615 (Капитальный ремонт)
-    String lawNumber;
+    private String lawNumber;
     // Заказчк -
-    String author;
+    private String author;
     // Этап размещения:  Работа комиссии
-    String placementPhase;
+    private String placementPhase;
     //Размещено: 10.04.2020
-    LocalDate posted;
+    private LocalDate posted;
     // Обновлено: 07.05.2020
-    LocalDate updated;
+    private LocalDate updated;
     // Начальная цена контракта: 4115914.02
-    BigDecimal initialContractprice;
+    private BigDecimal initialContractprice;
     // Объект закупки
-    String name;
+    private String name;
     //этапы размещения
-    String placementStages;
+    private String placementStages;
+    // <link>/epz/order/notice/ea615/view/common-info.html?regNumber=206520000011900119</link>
+    private String link;
+    // Уникальный номер закупки uin
+    private long uin;
 }

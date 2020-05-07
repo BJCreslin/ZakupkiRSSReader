@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Locale;
 
 /**
  * Сервис манипуляции с объектами ItemDto
@@ -41,6 +40,7 @@ public class ItemDtoManipulationService {
         for (int i = 0; i < o1.size(); i++) {
             System.out.println(i + "  : " + o1.get(i));
         }
+        var linkTemp = itemFromXML.getLink().replace("<link>", "").replace("</link>", "");
         var newItemDto = ItemDto.builder()
                 .author(itemFromXML.getAuthor())
                 .lawNumber(o1.get(1))  //1  : ПП РФ 615 (Капитальный ремонт)
@@ -50,8 +50,9 @@ public class ItemDtoManipulationService {
                 .updated(LocalDate.parse(o1.get(10), dateTimeFormatter))
                 .name(o1.get(5))
                 .placementStages(o1.get(2))
+                .link(linkTemp)
+                .uin(Long.parseUnsignedLong(linkTemp.replace("/epz/order/notice/ea615/view/common-info.html?regNumber=", "")))
                 .build();
-
 
         return newItemDto;
     }
