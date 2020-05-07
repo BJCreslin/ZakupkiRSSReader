@@ -3,7 +3,11 @@ package ru.bjcreslin.service;
 import ru.bjcreslin.domain.dto.ItemDto;
 import ru.bjcreslin.domain.fromXML.ItemFromXML;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Locale;
 
 /**
  * Сервис манипуляции с объектами ItemDto
@@ -31,11 +35,21 @@ public class ItemDtoManipulationService {
      * @return конечный объект
      */
     private ItemDto copyFileldsFromItemFromXmlToitemDto(ItemFromXML itemFromXML) {
+        var dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         var o1 = Arrays.asList(itemFromXML.getDescription().split("<br/>"));
-        o1.forEach(System.out::println);
+
+        for (int i = 0; i < o1.size(); i++) {
+            System.out.println(i + "  : " + o1.get(i));
+        }
         var newItemDto = ItemDto.builder()
                 .author(itemFromXML.getAuthor())
-                .lawNumber("gaaa")
+                .lawNumber(o1.get(1))  //1  : ПП РФ 615 (Капитальный ремонт)
+                .placementPhase(o1.get(11))
+                .initialContractprice(new BigDecimal(o1.get(8)))
+                .posted(LocalDate.parse(o1.get(9), dateTimeFormatter))
+                .updated(LocalDate.parse(o1.get(10), dateTimeFormatter))
+                .name(o1.get(5))
+                .placementStages(o1.get(2))
                 .build();
 
 
@@ -60,6 +74,7 @@ public class ItemDtoManipulationService {
                 .replace("<strong> Валюта: </strong>Российский рубль", "")
                 .replace("<strong>Размещено: </strong>", "")
                 .replace("<strong>Обновлено: </strong>", "")
-                .replace("<strong>Этап размещения: </strong>>", "");
+                .replace("<strong>Этап размещения: </strong>", "")
+                ;
     }
 }
