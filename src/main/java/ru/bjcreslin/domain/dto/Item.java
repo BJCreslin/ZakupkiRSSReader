@@ -12,4 +12,6 @@ import ru.bjcreslin.domain.fromXML.ItemDto;
 public class Item extends ItemDto {
     @Id
     String id;
+
+    boolean needed;
 }

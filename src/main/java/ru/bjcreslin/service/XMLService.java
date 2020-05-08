@@ -1,5 +1,6 @@
 package ru.bjcreslin.service;
 
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+@Service
 public class XMLService {
 
     /**

@@ -1,5 +1,6 @@
 package ru.bjcreslin.service;
 
+import org.springframework.stereotype.Service;
 import ru.bjcreslin.domain.fromXML.ItemDto;
 import ru.bjcreslin.domain.fromXML.ItemFromXML;
 
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 /**
  * Сервис манипуляции с объектами ItemDto
  */
+@Service
 public class ItemDtoManipulationService {
 
     /**

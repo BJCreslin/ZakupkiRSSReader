@@ -1,5 +1,6 @@
 package ru.bjcreslin.service;
 
+import org.springframework.stereotype.Service;
 import ru.bjcreslin.configuration.RSSServerConfiguration;
 
 import java.io.IOException;
@@ -8,6 +9,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+@Service
 public class RSSService {
 
     /**
