@@ -1,8 +1,8 @@
 package ru.bjcreslin.domain.repo;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import ru.bjcreslin.domain.dto.Item;
+import ru.bjcreslin.domain.fromXML.ItemDto;
 
-public interface ItemRepo extends MongoRepository<Item,String> {
+public interface ItemRepo extends MongoRepository<ItemDto,String> {
 
 }

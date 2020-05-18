@@ -6,12 +6,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ru.bjcreslin.domain.fromXML.ItemDto;
 
-@EqualsAndHashCode(callSuper = true)
-@Document(collection = "overhaul")
+
 @Data
 public class Item extends ItemDto {
-    @Id
-    String id;
 
-    boolean needed;
 }

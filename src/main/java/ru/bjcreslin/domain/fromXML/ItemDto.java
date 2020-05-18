@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -12,7 +14,13 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Document(collection = "overhaul")
 public class ItemDto {
+    @Id
+    String id;
+
+    boolean needed;
+
     // номер закона - ПП РФ 615 (Капитальный ремонт)
     private String lawNumber;
     // Заказчк -
