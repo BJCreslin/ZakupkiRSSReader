@@ -27,11 +27,10 @@ public class ProcedureService {
      * @param procedureDto объект
      * @return сохраненный объект
      */
-    public ProcedureDto saveNeeded(ProcedureDto procedureDto) {
+    public ProcedureDto save(ProcedureDto procedureDto) {
 
         ProcedureDto item = new ProcedureDto();
         BeanUtils.copyProperties(procedureDto, item);
-        item.setNeeded(true);
         return procedureRepo.insert(item);
 
     }
