@@ -2,10 +2,9 @@ package ru.bjcreslin.domain.service;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-import ru.bjcreslin.domain.fromXML.ItemDto;
+import ru.bjcreslin.domain.dto.ItemDto;
 import ru.bjcreslin.domain.repo.ItemRepo;
 
 import java.util.Optional;
@@ -63,6 +62,7 @@ public class ItemDomainService {
 
     /**
      * Метод получения количества элементов
+     *
      * @return количество
      */
     public Long count() {
@@ -70,6 +70,20 @@ public class ItemDomainService {
     }
 
 
+    /**
+     * Получение данных из БД с пагинацией
+     *
+     * @param page страница
+     * @param size размер выборки на одной странице
+     * @return Page
+     */
+    public Page<ItemDto> getPage(int page, int size) {
+        if (page < 0) {
+            page = 0;
+        }
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id"));
+        return itemRepo.findAll(pageable);
+    }
 
 
     /**
@@ -87,5 +101,6 @@ public class ItemDomainService {
         probe.setUin(uin);
         return Example.of(probe, uinMatcher);
     }
+
 
 }

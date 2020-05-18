@@ -1,4 +1,4 @@
-package ru.bjcreslin.domain.fromXML;
+package ru.bjcreslin.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

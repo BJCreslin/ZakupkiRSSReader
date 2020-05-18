@@ -1,7 +1,7 @@
 package ru.bjcreslin.service;
 
 import org.springframework.stereotype.Service;
-import ru.bjcreslin.domain.fromXML.ItemDto;
+import ru.bjcreslin.domain.dto.ItemDto;
 import ru.bjcreslin.domain.fromXML.ItemFromXML;
 
 import java.math.BigDecimal;
