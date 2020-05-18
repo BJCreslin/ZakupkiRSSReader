@@ -1,5 +1,6 @@
 package ru.bjcreslin.conrollers;
 
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import java.io.IOException;
 
 import static ru.bjcreslin.configuration.Constants.REPAIR_CONTROLLER;
 
+@Api
 @Controller
 @RequestMapping(REPAIR_CONTROLLER)
 public class RepaireManualWebController {
@@ -53,8 +55,9 @@ public class RepaireManualWebController {
 
 
     @GetMapping(path = Constants.PAGE_PREFIX + "{page}/{size}")
-            @ResponseStatus(HttpStatus.OK)
-            public @ResponseBody Page<ItemDto> page(@PathVariable int page, @PathVariable int size) {
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    Page<ItemDto> page(@PathVariable int page, @PathVariable int size) {
         //Проверяем номер страницы и размер
         if (page < 1 || size < 1) {
             throw new BadRequestException();
