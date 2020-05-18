@@ -18,9 +18,7 @@ import java.time.LocalDate;
 public class ItemDto {
     @Id
     String id;
-
     boolean needed;
-
     // номер закона - ПП РФ 615 (Капитальный ремонт)
     private String lawNumber;
     // Заказчк -

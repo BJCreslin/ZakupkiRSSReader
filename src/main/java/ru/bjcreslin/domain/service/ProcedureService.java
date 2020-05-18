@@ -5,34 +5,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
-import ru.bjcreslin.domain.fromXML.ItemDto;
-import ru.bjcreslin.domain.repo.ItemRepo;
+import ru.bjcreslin.domain.dto.ProcedureDto;
+import ru.bjcreslin.domain.repo.ProcedureRepo;
 
 import java.util.Optional;
 
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
 
 @Service
-public class ItemDomainService {
-    ItemRepo itemRepo;
+public class ProcedureService {
+    private final ProcedureRepo procedureRepo;
 
     @Autowired
-    public ItemDomainService(ItemRepo itemRepo) {
-        this.itemRepo = itemRepo;
+    public ProcedureService(ProcedureRepo procedureRepo) {
+        this.procedureRepo = procedureRepo;
     }
 
     /**
-     * метод сохранения ItemDto в базу Item
+     * метод сохранения ProcedureDto в базу Item
      *
-     * @param itemDto объект
+     * @param procedureDto объект
      * @return сохраненный объект
      */
-    public ItemDto saveNeeded(ItemDto itemDto) {
+    public ProcedureDto saveNeeded(ProcedureDto procedureDto) {
 
-        ItemDto item = new ItemDto();
-        BeanUtils.copyProperties(itemDto, item);
+        ProcedureDto item = new ProcedureDto();
+        BeanUtils.copyProperties(procedureDto, item);
         item.setNeeded(true);
-        return itemRepo.insert(item);
+        return procedureRepo.insert(item);
 
     }
 
@@ -44,9 +44,10 @@ public class ItemDomainService {
      * @return true ессли есть, false если нет
      */
     public boolean isItemDtoExistByUin(Long uin) {
-        Example<ItemDto> example = getItemDtoExample(uin);
-        return itemRepo.exists(example);
+        Example<ProcedureDto> example = getItemDtoExample(uin);
+        return procedureRepo.exists(example);
     }
+
 
     /**
      * Метод получения Итем из базы по uin
@@ -55,21 +56,20 @@ public class ItemDomainService {
      * @return Optional от itemDto
      */
 
-    public Optional<ItemDto> getItemByUin(Long uin) {
-        Example<ItemDto> example = getItemDtoExample(uin);
-        return itemRepo.findOne(example);
+    public Optional<ProcedureDto> getItemByUin(Long uin) {
+        Example<ProcedureDto> example = getItemDtoExample(uin);
+        return procedureRepo.findOne(example);
     }
 
 
     /**
      * Метод получения количества элементов
+     *
      * @return количество
      */
     public Long count() {
-        return itemRepo.count();
+        return procedureRepo.count();
     }
-
-
 
 
     /**
@@ -79,11 +79,11 @@ public class ItemDomainService {
      * @return Example
      */
 
-    private Example<ItemDto> getItemDtoExample(Long uin) {
+    private Example<ProcedureDto> getItemDtoExample(Long uin) {
         ExampleMatcher uinMatcher = ExampleMatcher.matching()
                 .withIgnorePaths("id")
                 .withMatcher("uin", ignoreCase());
-        ItemDto probe = new ItemDto();
+        ProcedureDto probe = new ProcedureDto();
         probe.setUin(uin);
         return Example.of(probe, uinMatcher);
     }
