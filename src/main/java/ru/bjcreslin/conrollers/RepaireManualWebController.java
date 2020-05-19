@@ -58,7 +58,7 @@ public class RepaireManualWebController {
     @ResponseBody
     public List<ItemDto> getAllFromServerZakupki() {
         try {
-            var response = rssService.getXMLFromServer(RSSServerConfiguration.QUERY_STRING);
+            var response = rssService.getXMLFromServer(RSSServerConfiguration.QUERY_ACTING_STRING);
             var resultXml = xmlService.getItemCollection(response);
             var resultItem = itemDtoManipulationService.createItemDtoCollectionFromItemFromXmlList(resultXml);
             return resultItem;
