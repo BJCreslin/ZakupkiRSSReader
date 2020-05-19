@@ -1,6 +1,10 @@
 package ru.bjcreslin.conrollers;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -11,6 +15,7 @@ import ru.bjcreslin.configuration.Constants;
 import ru.bjcreslin.configuration.RSSServerConfiguration;
 import ru.bjcreslin.conrollers.Exception.BadRequestException;
 import ru.bjcreslin.conrollers.Exception.ConflictException;
+import ru.bjcreslin.conrollers.Exception.ServiceUnavailable;
 import ru.bjcreslin.domain.dto.ItemDto;
 import ru.bjcreslin.domain.service.ItemDomainService;
 import ru.bjcreslin.service.ItemDtoManipulationService;
@@ -23,6 +28,7 @@ import java.util.List;
 
 import static ru.bjcreslin.configuration.Constants.REPAIR_CONTROLLER;
 
+@Log
 @Api
 @Controller
 @RequestMapping(REPAIR_CONTROLLER)
@@ -42,18 +48,24 @@ public class RepaireManualWebController {
         this.itemDomainService = itemDomainService;
     }
 
+    @ApiOperation(value = "выдает все данные с сервера zakupki.gov.ru")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Переданы данные"),
+            @ApiResponse(code = 503, message = "ОШибка запроса к серверу zakupki или нечитаемый объект ответа"),
+    })
+
     @GetMapping("")
     @ResponseBody
-    public List<ItemDto> getAllFromServerZakupki() throws IOException, InterruptedException, ParserConfigurationException, SAXException {
-
-        var response = rssService.getXMLFromServer(RSSServerConfiguration.QUERY_STRING);
-        var resultXml = xmlService.getItemCollection(response);
-        var resultItem = itemDtoManipulationService.createItemDtoCollectionFromItemFromXmlList(resultXml);
-
-        //StringBuilder result = new StringBuilder();
-        //resultItem.forEach((x) -> result.append(x.toString()));
-
-        return resultItem;
+    public List<ItemDto> getAllFromServerZakupki() {
+        try {
+            var response = rssService.getXMLFromServer(RSSServerConfiguration.QUERY_STRING);
+            var resultXml = xmlService.getItemCollection(response);
+            var resultItem = itemDtoManipulationService.createItemDtoCollectionFromItemFromXmlList(resultXml);
+            return resultItem;
+        } catch (IOException | InterruptedException | SAXException | ParserConfigurationException e) {
+            log.severe("Error in getting data from zakupki" + e.getMessage());
+        }
+        throw new ServiceUnavailable();
     }
 
 
