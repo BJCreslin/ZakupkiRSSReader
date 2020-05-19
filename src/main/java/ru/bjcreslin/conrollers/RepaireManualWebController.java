@@ -28,6 +28,7 @@ import java.util.List;
 
 import static ru.bjcreslin.configuration.Constants.REPAIR_CONTROLLER;
 
+@CrossOrigin
 @Log
 @Api
 @Controller
@@ -61,6 +62,7 @@ public class RepaireManualWebController {
             var response = rssService.getXMLFromServer(RSSServerConfiguration.QUERY_ACTING_STRING);
             var resultXml = xmlService.getItemCollection(response);
             var resultItem = itemDtoManipulationService.createItemDtoCollectionFromItemFromXmlList(resultXml);
+            log.info("Data to controller: " + resultItem.size() + " numbers.");
             return resultItem;
         } catch (IOException | InterruptedException | SAXException | ParserConfigurationException e) {
             log.severe("Error in getting data from zakupki" + e.getMessage());

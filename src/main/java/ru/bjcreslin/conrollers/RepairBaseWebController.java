@@ -4,13 +4,11 @@ package ru.bjcreslin.conrollers;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import ru.bjcreslin.domain.dto.ItemDto;
 import ru.bjcreslin.domain.service.ItemDomainService;
 
+@CrossOrigin
 @Api
 @Controller
 @RequestMapping("/base/repair")
