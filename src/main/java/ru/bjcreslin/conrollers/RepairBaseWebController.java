@@ -1,6 +1,7 @@
 package ru.bjcreslin.conrollers;
 
 
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ru.bjcreslin.domain.dto.ItemDto;
 import ru.bjcreslin.domain.service.ItemDomainService;
 
+@Api
 @Controller
 @RequestMapping("/base/repair")
 public class RepairBaseWebController {

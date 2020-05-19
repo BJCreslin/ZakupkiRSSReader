@@ -1,5 +1,6 @@
 package ru.bjcreslin.configuration;
 
+import io.swagger.annotations.Api;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.PathSelectors;
@@ -18,12 +19,12 @@ import java.util.Collections;
 @EnableSwagger2
 public class SwaggerConfiguration {
 
-    public class SpringFoxConfig {
+    public static class SpringFoxConfig {
         @Bean
         public Docket api() {
             return new Docket(DocumentationType.SPRING_WEB)
                     .select()
-                    .apis(RequestHandlerSelectors.any())
+                    .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
                     .paths(PathSelectors.any())
                     .build()
                     .useDefaultResponseMessages(false)

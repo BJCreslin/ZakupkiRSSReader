@@ -19,6 +19,7 @@ import ru.bjcreslin.service.XMLService;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.util.List;
 
 import static ru.bjcreslin.configuration.Constants.REPAIR_CONTROLLER;
 
@@ -43,14 +44,16 @@ public class RepaireManualWebController {
 
     @GetMapping("")
     @ResponseBody
-    public String getAll() throws IOException, InterruptedException, ParserConfigurationException, SAXException {
-        StringBuilder result = new StringBuilder();
+    public List<ItemDto> getAllFromServerZakupki() throws IOException, InterruptedException, ParserConfigurationException, SAXException {
+
         var response = rssService.getXMLFromServer(RSSServerConfiguration.QUERY_STRING);
         var resultXml = xmlService.getItemCollection(response);
         var resultItem = itemDtoManipulationService.createItemDtoCollectionFromItemFromXmlList(resultXml);
-        resultItem.forEach((x) -> result.append(x.toString()));
 
-        return result.toString();
+        //StringBuilder result = new StringBuilder();
+        //resultItem.forEach((x) -> result.append(x.toString()));
+
+        return resultItem;
     }
 
 
