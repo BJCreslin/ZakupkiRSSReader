@@ -17,7 +17,9 @@ import ru.bjcreslin.conrollers.Exception.BadRequestException;
 import ru.bjcreslin.conrollers.Exception.ConflictException;
 import ru.bjcreslin.conrollers.Exception.ServiceUnavailable;
 import ru.bjcreslin.domain.dto.ItemDto;
+import ru.bjcreslin.domain.dto.ProcedureDto;
 import ru.bjcreslin.domain.service.ItemDomainService;
+import ru.bjcreslin.domain.service.ProcedureService;
 import ru.bjcreslin.service.ItemDtoManipulationService;
 import ru.bjcreslin.service.RSSService;
 import ru.bjcreslin.service.XMLService;
@@ -25,6 +27,7 @@ import ru.bjcreslin.service.XMLService;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import static ru.bjcreslin.configuration.Constants.REPAIR_CONTROLLER;
 
@@ -38,15 +41,18 @@ public class RepaireManualWebController {
     private final RSSService rssService;
     private final XMLService xmlService;
     private final ItemDtoManipulationService itemDtoManipulationService;
+
     private final ItemDomainService itemDomainService;
+    private final ProcedureService procedureService;
 
     @Autowired
     public RepaireManualWebController(RSSService rssService, XMLService xmlService, ItemDtoManipulationService itemDtoManipulationService,
-                                      ItemDomainService itemDomainService) {
+                                      ItemDomainService itemDomainService, ProcedureService procedureService) {
         this.rssService = rssService;
         this.xmlService = xmlService;
         this.itemDtoManipulationService = itemDtoManipulationService;
         this.itemDomainService = itemDomainService;
+        this.procedureService = procedureService;
     }
 
     @ApiOperation(value = "выдает все данные с сервера zakupki.gov.ru")
@@ -65,9 +71,37 @@ public class RepaireManualWebController {
             log.info("Data to controller: " + resultItem.size() + " numbers.");
             return resultItem;
         } catch (IOException | InterruptedException | SAXException | ParserConfigurationException e) {
-            log.severe("Error in getting data from zakupki" + e.getMessage());
+            log.warning("Error in getting data from zakupki" + e.getMessage());
         }
         throw new ServiceUnavailable();
+    }
+
+    @ApiOperation(value = "Сохраняет в базу нужную торговую процедуру")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Получены данные"),
+            @ApiResponse(code = 400, message = "Некорректный объект для сохранения. Возможно пустой."),
+    })
+
+    @PostMapping("")
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    ProcedureDto createProcedure(@RequestBody ProcedureDto procedureDto) {
+        if (!checkProcedureDto(procedureDto)) {
+            log.warning("Error in requestObject: ");
+            throw new BadRequestException();
+        }
+        return procedureService.save(procedureDto);
+    }
+
+    /**
+     * Метод проверки приходящего procedureDto
+     *
+     * @param procedureDto пришедший procedureDto
+     * @return верен или нет
+     * todo: Переделать из заглушки
+     */
+    private boolean checkProcedureDto(ProcedureDto procedureDto) {
+        return Objects.nonNull(procedureDto);
     }
 
 

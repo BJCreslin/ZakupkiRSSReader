@@ -28,11 +28,9 @@ public class ProcedureService {
      * @return сохраненный объект
      */
     public ProcedureDto save(ProcedureDto procedureDto) {
-
         ProcedureDto item = new ProcedureDto();
         BeanUtils.copyProperties(procedureDto, item);
         return procedureRepo.insert(item);
-
     }
 
 
