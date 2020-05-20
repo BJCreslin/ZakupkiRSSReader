@@ -42,7 +42,7 @@ public class ItemDomainService {
      * @param uin - uin искомого объекта
      * @return true ессли есть, false если нет
      */
-    public boolean isItemDtoExistByUin(Long uin) {
+    public boolean isItemDtoExistByUin(String uin) {
         Example<ItemDto> example = getItemDtoExample(uin);
         return itemRepo.exists(example);
     }
@@ -54,7 +54,7 @@ public class ItemDomainService {
      * @return Optional от itemDto
      */
 
-    public Optional<ItemDto> getItemByUin(Long uin) {
+    public Optional<ItemDto> getItemByUin(String uin) {
         Example<ItemDto> example = getItemDtoExample(uin);
         return itemRepo.findOne(example);
     }
@@ -93,7 +93,7 @@ public class ItemDomainService {
      * @return Example
      */
 
-    private Example<ItemDto> getItemDtoExample(Long uin) {
+    private Example<ItemDto> getItemDtoExample(String uin) {
         ExampleMatcher uinMatcher = ExampleMatcher.matching()
                 .withIgnorePaths("id")
                 .withMatcher("uin", ignoreCase());

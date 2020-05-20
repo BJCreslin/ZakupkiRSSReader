@@ -38,5 +38,5 @@ public class ItemDto {
     // <link>/epz/order/notice/ea615/view/common-info.html?regNumber=206520000011900119</link>
     private String link;
     // Уникальный номер закупки uin
-    private long uin;
+    private String uin;
 }

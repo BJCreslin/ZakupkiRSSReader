@@ -59,7 +59,7 @@ public class ItemDtoManipulationService {
                 .name(tempListForManipulation.get(5))
                 .placementStages(tempListForManipulation.get(2))
                 .link(linkTemp)
-                .uin(Long.parseUnsignedLong(linkTemp.replace("/epz/order/notice/ea615/view/common-info.html?regNumber=", "")))
+                .uin(linkTemp.replace("/epz/order/notice/ea615/view/common-info.html?regNumber=", ""))
                 .build();
     }
 
