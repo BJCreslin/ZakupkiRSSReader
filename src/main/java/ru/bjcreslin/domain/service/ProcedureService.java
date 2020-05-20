@@ -40,7 +40,7 @@ public class ProcedureService {
      * @param uin - uin искомого объекта
      * @return true ессли есть, false если нет
      */
-    public boolean isItemDtoExistByUin(Long uin) {
+    public boolean isItemDtoExistByUin(String uin) {
         Example<ProcedureDto> example = getItemDtoExample(uin);
         return procedureRepo.exists(example);
     }
@@ -53,7 +53,7 @@ public class ProcedureService {
      * @return Optional от itemDto
      */
 
-    public Optional<ProcedureDto> getItemByUin(Long uin) {
+    public Optional<ProcedureDto> getItemByUin(String uin) {
         Example<ProcedureDto> example = getItemDtoExample(uin);
         return procedureRepo.findOne(example);
     }
@@ -76,7 +76,7 @@ public class ProcedureService {
      * @return Example
      */
 
-    private Example<ProcedureDto> getItemDtoExample(Long uin) {
+    private Example<ProcedureDto> getItemDtoExample(String uin) {
         ExampleMatcher uinMatcher = ExampleMatcher.matching()
                 .withIgnorePaths("id")
                 .withMatcher("uin", ignoreCase());

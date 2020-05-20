@@ -23,7 +23,7 @@ public class ProcedureDto {
     private String id;
 
     // Уинкальный номер процедуры в системе
-    Long uin;
+    String uin;
 
     //нужна ли эта процедура?
     boolean isNeeded;
