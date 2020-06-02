@@ -11,11 +11,11 @@ public class ProcedureDispatcher {
 
     public ProcedureDispatcher() {
         map = new HashMap<>();
-        map.put("Номер закупки",number(ProcedureFromHtmlParser ,String number));
+        map.put("Номер закупки", this::setNumber);
 
     }
 
-    private BiConsumer<ProcedureFromHtmlParser, String> number(ProcedureFromHtmlParser procedureFromHtmlParser,String number) {
-
+    private void setNumber(ProcedureFromHtmlParser procedureFromHtmlParser, String number) {
+        procedureFromHtmlParser.setNumber(number);
     }
 }
