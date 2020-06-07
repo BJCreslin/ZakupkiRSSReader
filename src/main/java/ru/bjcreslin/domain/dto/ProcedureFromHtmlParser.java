@@ -3,6 +3,8 @@ package ru.bjcreslin.domain.dto;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 public class ProcedureFromHtmlParser {
@@ -10,8 +12,8 @@ public class ProcedureFromHtmlParser {
     private String name;
     private String tradingPlatformName;
     private String sponsorName;
-    private String deadline;
-    private String reviewDeadline;
-    private String auctionDate;
+    private LocalDateTime deadline;
+    private LocalDate reviewDeadline;
+    private LocalDate auctionDate;
     private BigDecimal maximumContractPrice;
 }

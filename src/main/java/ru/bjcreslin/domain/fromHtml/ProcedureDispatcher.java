@@ -3,6 +3,9 @@ package ru.bjcreslin.domain.fromHtml;
 import ru.bjcreslin.domain.dto.ProcedureFromHtmlParser;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -33,16 +36,22 @@ public class ProcedureDispatcher {
     }
 
     private void setAuctionDate(ProcedureFromHtmlParser procedureFromHtmlParser, String s) {
-        procedureFromHtmlParser.setAuctionDate(s.replace("\n" +
-                "<p class=\"caption\"><b>Условия договора</b>", ""));
+        var formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        var localDate = LocalDate.parse(s.replace("\n" +
+                "<p class=\"caption\"><b>Условия договора</b>", "").trim(), formatter);
+        procedureFromHtmlParser.setAuctionDate(localDate);
     }
 
     private void setReviewDeadline(ProcedureFromHtmlParser procedureFromHtmlParser, String s) {
-        procedureFromHtmlParser.setReviewDeadline(s);
+        var formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        var localDate = LocalDate.parse(s.trim(), formatter);
+        procedureFromHtmlParser.setReviewDeadline(localDate);
     }
 
     private void setDeadline(ProcedureFromHtmlParser procedureFromHtmlParser, String s) {
-        procedureFromHtmlParser.setDeadline(s);
+        var formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+        var localDateTime = LocalDateTime.parse(s.trim(), formatter);
+        procedureFromHtmlParser.setDeadline(localDateTime);
     }
 
     private void setSponsorName(ProcedureFromHtmlParser procedureFromHtmlParser, String s) {
