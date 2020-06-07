@@ -39,12 +39,27 @@ public class RepaireTradeProcedureParser {
                     procedure.setName(elements[i++]);
                 }
 
- if (elements[i].equals("Наименование электронной площадки")) {
+                if (elements[i].equals("Наименование электронной площадки")) {
                     procedure.setName(elements[i++]);
                 }
 
 
             }
+            var dispatcher = new ProcedureDispatcher();
+            var tradeProcedure = new ProcedureFromHtmlParser();
+            for (int i = 0; i < elements.length; i++) {
+                System.out.println(i+" :"+elements[i]);
+                if (dispatcher.getMap().containsKey(elements[i])) {
+                    System.out.println("**");
+                    dispatcher.getMap().get(elements[i]).
+                            accept(tradeProcedure, elements[++i]);
+                }
+
+            }
+
+            System.out.println(tradeProcedure);
+
+            System.out.println("-------------------------------");
 
 
             result = "";

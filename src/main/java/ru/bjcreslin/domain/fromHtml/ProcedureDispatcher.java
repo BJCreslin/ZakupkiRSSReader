@@ -2,12 +2,17 @@ package ru.bjcreslin.domain.fromHtml;
 
 import ru.bjcreslin.domain.dto.ProcedureFromHtmlParser;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
 public class ProcedureDispatcher {
     private Map<String, BiConsumer<ProcedureFromHtmlParser, String>> map;
+
+    public Map<String, BiConsumer<ProcedureFromHtmlParser, String>> getMap() {
+        return map;
+    }
 
     public ProcedureDispatcher() {
         map = new HashMap<>();
@@ -16,7 +21,23 @@ public class ProcedureDispatcher {
         map.put("Наименование электронной площадки", this::setPlatform);
         map.put("Наименование организации", this::setSponsorName);
         map.put("Дата и время окончания срока подачи заявок", this::setDeadline);
+        map.put("Дата окончания срока рассмотрения заявок", this::setReviewDeadline);
+        map.put("Дата проведения электронного аукциона", this::setAuctionDate);
+        map.put("Начальная (максимальная) цена договора", this::setMaximumContractPrice);
 
+    }
+
+    private void setMaximumContractPrice(ProcedureFromHtmlParser procedureFromHtmlParser, String s) {
+        var price = new BigDecimal(s.replace(" в российских рублях", "").trim());
+        procedureFromHtmlParser.setMaximumContractPrice(price);
+    }
+
+    private void setAuctionDate(ProcedureFromHtmlParser procedureFromHtmlParser, String s) {
+        procedureFromHtmlParser.setAuctionDate(s);
+    }
+
+    private void setReviewDeadline(ProcedureFromHtmlParser procedureFromHtmlParser, String s) {
+        procedureFromHtmlParser.setReviewDeadline(s);
     }
 
     private void setDeadline(ProcedureFromHtmlParser procedureFromHtmlParser, String s) {
