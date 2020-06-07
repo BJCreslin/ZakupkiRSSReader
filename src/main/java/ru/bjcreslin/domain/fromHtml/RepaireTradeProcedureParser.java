@@ -5,6 +5,7 @@ import lombok.extern.java.Log;
 import org.jsoup.Jsoup;
 import ru.bjcreslin.configuration.Constants;
 import ru.bjcreslin.configuration.RepairsServerConfiguration;
+import ru.bjcreslin.domain.dto.ProcedureDispacher;
 import ru.bjcreslin.domain.dto.ProcedureFromHtmlParser;
 
 import java.io.IOException;
@@ -15,7 +16,7 @@ import java.io.IOException;
  */
 @Log
 public class RepaireTradeProcedureParser {
-    private ProcedureDispatcher dispatcher = new ProcedureDispatcher();
+    private ProcedureDispacher dispatcher = new RepairsProcedureDispatcher();
 
     public ProcedureFromHtmlParser getResult(String uin) {
         String requestedAddress = getRequestedAddressFromUin(uin);
@@ -29,7 +30,7 @@ public class RepaireTradeProcedureParser {
         return tradeProcedure;
     }
 
-    private ProcedureFromHtmlParser makeProcedureFromLines(ProcedureDispatcher dispatcher, String[] elements) {
+    private ProcedureFromHtmlParser makeProcedureFromLines(ProcedureDispacher dispatcher, String[] elements) {
         var tradeProcedure = new ProcedureFromHtmlParser();
         for (int i = 0; i < elements.length; i++) {
             elements[i] = elements[i].trim();

@@ -1,5 +1,6 @@
 package ru.bjcreslin.domain.fromHtml;
 
+import ru.bjcreslin.domain.dto.ProcedureDispacher;
 import ru.bjcreslin.domain.dto.ProcedureFromHtmlParser;
 
 import java.math.BigDecimal;
@@ -10,14 +11,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-public class ProcedureDispatcher {
+public class RepairsProcedureDispatcher implements ProcedureDispacher {
     private final Map<String, BiConsumer<ProcedureFromHtmlParser, String>> map;
 
+    @Override
     public Map<String, BiConsumer<ProcedureFromHtmlParser, String>> getMap() {
         return map;
     }
 
-    public ProcedureDispatcher() {
+    public RepairsProcedureDispatcher() {
         map = new HashMap<>();
         map.put("Номер закупки", this::setNumber);
         map.put("Наименование закупки", this::setName);
