@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 
 public class ProcedureDispatcher {
-    private Map<String, BiConsumer<ProcedureFromHtmlParser, String>> map;
+    private final Map<String, BiConsumer<ProcedureFromHtmlParser, String>> map;
 
     public Map<String, BiConsumer<ProcedureFromHtmlParser, String>> getMap() {
         return map;
