@@ -8,7 +8,6 @@ import ru.bjcreslin.configuration.RepairsServerConfiguration;
 import ru.bjcreslin.domain.dto.ProcedureFromHtmlParser;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * парсер торговых процедур по капремонту.
@@ -17,9 +16,9 @@ import java.util.List;
 @Log
 public class RepaireTradeProcedureParser {
 
-    public String getResult(String uin) {
+    public ProcedureFromHtmlParser getResult(String uin) {
         String requestedAddress = RepairsServerConfiguration.ADRESS_OBJECT_FROM_SERVER_BY_UIN + uin;
-        String result = "";
+        var tradeProcedure = new ProcedureFromHtmlParser();
         try {
             var document = Jsoup.connect(requestedAddress)
                     .userAgent(Constants.USER_AGENT).get();
@@ -46,31 +45,22 @@ public class RepaireTradeProcedureParser {
 
             }
             var dispatcher = new ProcedureDispatcher();
-            var tradeProcedure = new ProcedureFromHtmlParser();
+
             for (int i = 0; i < elements.length; i++) {
                 elements[i]=elements[i].trim();
-                System.out.println(i+" :"+elements[i]);
+             //   System.out.println(i+" :"+elements[i]);
                 if (dispatcher.getMap().containsKey(elements[i].trim())) {
-                    System.out.println("**");
                     dispatcher.getMap().get(elements[i]).
                             accept(tradeProcedure, elements[++i]);
                 }
 
             }
 
-            System.out.println(tradeProcedure);
-
-            System.out.println("-------------------------------");
-
-
-            result = "";
-            List.of(elements).stream().forEach(System.out::println);
-
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return result;
+        return tradeProcedure;
     }
 
 
