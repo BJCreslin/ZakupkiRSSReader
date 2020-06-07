@@ -33,7 +33,7 @@ public class RepaireTradeProcedureParser {
             ProcedureFromHtmlParser procedure = new ProcedureFromHtmlParser();
             for (int i = 0; i < elements.length; i++) {
                 if (elements[i].equals("Номер закупки")) {
-                    procedure.setNumber(elements[i++]);
+                    procedure.setNumber(elements[++i]);
                 }
                 if (elements[i].equals("Наименование закупки")) {
                     procedure.setName(elements[i++]);
@@ -48,8 +48,9 @@ public class RepaireTradeProcedureParser {
             var dispatcher = new ProcedureDispatcher();
             var tradeProcedure = new ProcedureFromHtmlParser();
             for (int i = 0; i < elements.length; i++) {
+                elements[i]=elements[i].trim();
                 System.out.println(i+" :"+elements[i]);
-                if (dispatcher.getMap().containsKey(elements[i])) {
+                if (dispatcher.getMap().containsKey(elements[i].trim())) {
                     System.out.println("**");
                     dispatcher.getMap().get(elements[i]).
                             accept(tradeProcedure, elements[++i]);

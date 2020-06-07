@@ -33,7 +33,8 @@ public class ProcedureDispatcher {
     }
 
     private void setAuctionDate(ProcedureFromHtmlParser procedureFromHtmlParser, String s) {
-        procedureFromHtmlParser.setAuctionDate(s);
+        procedureFromHtmlParser.setAuctionDate(s.replace("\n" +
+                "<p class=\"caption\"><b>Условия договора</b>", ""));
     }
 
     private void setReviewDeadline(ProcedureFromHtmlParser procedureFromHtmlParser, String s) {
