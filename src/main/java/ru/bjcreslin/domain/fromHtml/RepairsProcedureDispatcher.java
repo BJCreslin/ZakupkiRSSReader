@@ -68,6 +68,6 @@ public class RepairsProcedureDispatcher implements ProcedureDispacher {
     }
 
     private void setNumber(ProcedureFromHtmlParser procedureFromHtmlParser, String number) {
-        procedureFromHtmlParser.setNumber(number);
+        procedureFromHtmlParser.setUin(number);
     }
 }
