@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import ru.bjcreslin.conrollers.Exception.BadRequestException;
 import ru.bjcreslin.domain.dto.DataPage;
 import ru.bjcreslin.domain.dto.ItemDto;
+import ru.bjcreslin.domain.dto.ProcedureFromHtmlParser;
 import ru.bjcreslin.domain.service.ItemDomainService;
+import ru.bjcreslin.domain.service.RepairProcedureService;
 
 @CrossOrigin
 @Api
@@ -17,25 +19,42 @@ import ru.bjcreslin.domain.service.ItemDomainService;
 @RequestMapping("/base/repair")
 public class RepairBaseWebController {
     private final ItemDomainService itemDomainService;
+    private final RepairProcedureService repairProcedureService;
 
     @Autowired
-    public RepairBaseWebController(ItemDomainService itemDomainService) {
+    public RepairBaseWebController(ItemDomainService itemDomainService, RepairProcedureService repairProcedureService) {
         this.itemDomainService = itemDomainService;
+        this.repairProcedureService = repairProcedureService;
     }
 
     @PutMapping("/")
     @ResponseBody
     public String saveNeeded(@RequestBody ItemDto itemDto) {
         itemDomainService.saveNeeded(itemDto);
+        if ((itemDto.isNeeded())&&!repairProcedureService.isPresentByUin(itemDto.getUin())){
+            //todo: доделать
+            repairProcedureService.save()
+        }
         return "Ok";
     }
 
 
     @GetMapping("/get_all")
     @ResponseBody
-    public Page<ItemDto> getAll(@RequestBody DataPage dataPage) {
+    public Page<ProcedureFromHtmlParser> getAll(@RequestBody DataPage dataPage) {
         checkDataPage(dataPage);
-        return itemDomainService.getPage(dataPage.getPageNumber(), dataPage.getPageSize());
+        return repairProcedureService.getPageableProcedure(dataPage.getPageNumber(), dataPage.getPageSize());
+    }
+
+    @GetMapping("")
+    @ResponseBody
+    public
+
+
+    @GetMapping("/count")
+    @ResponseBody
+    public long count() {
+        return repairProcedureService.count();
     }
 
     private void checkDataPage(DataPage dataPage) {
