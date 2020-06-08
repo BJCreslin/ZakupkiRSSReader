@@ -3,6 +3,8 @@ package ru.bjcreslin.domain.service;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.bjcreslin.domain.dto.ProcedureFromHtmlParser;
 import ru.bjcreslin.domain.repo.RepairProcedureRepo;
@@ -38,6 +40,34 @@ public class RepairProcedureService {
         return procedureRepo.findOne(example);
     }
 
+    /**
+     * Возвращает Постраничные данные процедур ремонта
+     * @param pageNumber текущая страница
+     * @param pageSize размер страницы
+     * @return коллекция результатов
+     */
+    public Page<ProcedureFromHtmlParser> getPageableProcedure(int pageNumber, int pageSize) {
+        pageNumber = normalisationPageNumber(pageNumber);
+        pageSize = normalisationPageSize(pageSize);
+
+        var pageD = PageRequest.of(pageNumber, pageSize);
+        return procedureRepo.findAll(pageD);
+    }
+
+    private int normalisationPageSize(int pageSize) {
+        if (pageSize < 5) {
+            pageSize = 5;
+        }
+        if (pageSize > 50) {
+            pageSize = 50;
+        }
+        return pageSize;
+    }
+
+    private int normalisationPageNumber(int pageNumber) {
+        return Math.max(pageNumber, 0);
+    }
+
 
     /**
      * Метод получения количества элементов
@@ -64,5 +94,6 @@ public class RepairProcedureService {
         probe.setUin(uin);
         return Example.of(probe, uinMatcher);
     }
+
 
 }
