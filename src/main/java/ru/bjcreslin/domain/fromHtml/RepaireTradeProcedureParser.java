@@ -3,9 +3,9 @@ package ru.bjcreslin.domain.fromHtml;
 
 import lombok.extern.java.Log;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import ru.bjcreslin.configuration.Constants;
 import ru.bjcreslin.configuration.RepairsServerConfiguration;
-import ru.bjcreslin.domain.dto.ProcedureDispacher;
 import ru.bjcreslin.domain.dto.ProcedureFromHtmlParser;
 
 import java.io.IOException;
@@ -16,18 +16,24 @@ import java.io.IOException;
  */
 @Log
 public class RepaireTradeProcedureParser {
-    private ProcedureDispacher dispatcher = new RepairsProcedureDispatcher();
+    private final ProcedureDispacher dispatcher = new RepairsProcedureDispatcher();
 
     public ProcedureFromHtmlParser getResult(String uin) {
         String requestedAddress = getRequestedAddressFromUin(uin);
         var tradeProcedure = new ProcedureFromHtmlParser();
         try {
-            String[] elements = getLinesFromAddress(requestedAddress);
+            var document = getDocumentFromAddress(requestedAddress);
+            String[] elements = getLinesFromAddress(document);
             tradeProcedure = makeProcedureFromLines(dispatcher, elements);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return tradeProcedure;
+    }
+
+    private Document getDocumentFromAddress(String requestedAddress) throws IOException {
+        return Jsoup.connect(requestedAddress)
+                .userAgent(Constants.USER_AGENT).get();
     }
 
     private ProcedureFromHtmlParser makeProcedureFromLines(ProcedureDispacher dispatcher, String[] elements) {
@@ -43,9 +49,7 @@ public class RepaireTradeProcedureParser {
         return tradeProcedure;
     }
 
-    private String[] getLinesFromAddress(String requestedAddress) throws IOException {
-        var document = Jsoup.connect(requestedAddress)
-                .userAgent(Constants.USER_AGENT).get();
+    private String[] getLinesFromAddress(Document document) {
         return document
                 .body()
                 .getElementsByTag("td")

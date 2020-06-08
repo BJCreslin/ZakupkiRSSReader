@@ -7,6 +7,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
+/**
+ * класс для хранения данных, полученных от парсинга данных
+ */
 public class ProcedureFromHtmlParser {
     private String number;
     private String name;

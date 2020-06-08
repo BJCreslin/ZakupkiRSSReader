@@ -1,6 +1,5 @@
 package ru.bjcreslin.domain.fromHtml;
 
-import ru.bjcreslin.domain.dto.ProcedureDispacher;
 import ru.bjcreslin.domain.dto.ProcedureFromHtmlParser;
 
 import java.math.BigDecimal;
