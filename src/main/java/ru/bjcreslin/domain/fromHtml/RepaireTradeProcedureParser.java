@@ -4,6 +4,7 @@ package ru.bjcreslin.domain.fromHtml;
 import lombok.extern.java.Log;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.springframework.stereotype.Component;
 import ru.bjcreslin.configuration.Constants;
 import ru.bjcreslin.configuration.RepairsServerConfiguration;
 import ru.bjcreslin.domain.dto.ProcedureFromHtmlParser;

@@ -3,7 +3,6 @@ package ru.bjcreslin.domain.ftp;
 import org.springframework.stereotype.Component;
 import ru.bjcreslin.configuration.FtpConfiguration;
 
-@Component
 public class FtpServerImpl implements FtpServer {
 
     private final String name;

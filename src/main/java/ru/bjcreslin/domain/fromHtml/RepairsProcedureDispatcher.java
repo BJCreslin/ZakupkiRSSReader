@@ -1,5 +1,6 @@
 package ru.bjcreslin.domain.fromHtml;
 
+import org.springframework.stereotype.Component;
 import ru.bjcreslin.domain.dto.ProcedureFromHtmlParser;
 
 import java.math.BigDecimal;
@@ -10,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
+@Component
 public class RepairsProcedureDispatcher implements ProcedureDispacher {
     private final Map<String, BiConsumer<ProcedureFromHtmlParser, String>> map;
 
