@@ -61,7 +61,12 @@ public class RepairProcedureService {
      * @return количество
      */
     public Long count() {
-        return procedureRepo.count();
+
+        try {
+            return procedureRepo.count();
+        } catch (NullPointerException npe) {
+            return 0L;
+        }
     }
 
     /**
