@@ -1,5 +1,8 @@
 package ru.bjcreslin.domain.ftp;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class FtpUserImpl implements FtpUser {
     private final String user;
     private final String password;

@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.bjcreslin.conrollers.Exception.BadRequestException;
+import ru.bjcreslin.conrollers.Exception.NotFoundException;
 import ru.bjcreslin.domain.dto.DataPage;
 import ru.bjcreslin.domain.dto.ItemDto;
 import ru.bjcreslin.domain.dto.ProcedureFromHtmlParser;
@@ -31,9 +32,9 @@ public class RepairBaseWebController {
     @ResponseBody
     public String saveNeeded(@RequestBody ItemDto itemDto) {
         itemDomainService.saveNeeded(itemDto);
-        if ((itemDto.isNeeded())&&!repairProcedureService.isPresentByUin(itemDto.getUin())){
+        if ((itemDto.isNeeded()) && !repairProcedureService.isPresentByUin(itemDto.getUin())) {
             //todo: доделать
-            repairProcedureService.save()
+            repairProcedureService.save(repairProcedureService.getItemByUin(itemDto.getUin()).get());
         }
         return "Ok";
     }
@@ -46,9 +47,14 @@ public class RepairBaseWebController {
         return repairProcedureService.getPageableProcedure(dataPage.getPageNumber(), dataPage.getPageSize());
     }
 
-    @GetMapping("")
+    @GetMapping("/{uin}")
     @ResponseBody
-    public
+    public ProcedureFromHtmlParser getOne(@PathVariable("uin") String uin) {
+        if (repairProcedureService.getItemByUin(uin).isEmpty()) {
+            throw new NotFoundException();
+        }
+        return repairProcedureService.getItemByUin(uin).get();
+    }
 
 
     @GetMapping("/count")

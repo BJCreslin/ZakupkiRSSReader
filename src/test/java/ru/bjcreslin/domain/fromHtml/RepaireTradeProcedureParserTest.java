@@ -7,7 +7,7 @@ class RepaireTradeProcedureParserTest {
         String uin = "206520000012000082";
         RepaireTradeProcedureParser repaireTradeProcedureParser = new RepaireTradeProcedureParser();
 
-        String res = repaireTradeProcedureParser.getResult(uin).trim();
+        var res = repaireTradeProcedureParser.getResult(uin);
         System.out.println(res);
 
     }
