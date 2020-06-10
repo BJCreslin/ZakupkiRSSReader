@@ -40,7 +40,7 @@ public class RepairBaseWebController {
     }
 
 
-    @GetMapping("/get_all")
+    @PostMapping("/get_all")
     @ResponseBody
     public Page<ProcedureFromHtmlParser> getAll(@RequestBody DataPage dataPage) {
         checkDataPage(dataPage);
