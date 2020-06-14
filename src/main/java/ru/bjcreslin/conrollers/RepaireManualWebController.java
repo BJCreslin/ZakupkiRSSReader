@@ -91,6 +91,7 @@ public class RepaireManualWebController {
             throw new BadRequestException();
         }
         return procedureService.save(procedureDto);
+
     }
 
     /**

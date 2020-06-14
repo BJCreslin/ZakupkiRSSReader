@@ -10,6 +10,7 @@ import ru.bjcreslin.conrollers.Exception.BadRequestException;
 import ru.bjcreslin.conrollers.Exception.NotFoundException;
 import ru.bjcreslin.domain.dto.DataPage;
 import ru.bjcreslin.domain.dto.ItemDto;
+import ru.bjcreslin.domain.dto.ProcedureDto;
 import ru.bjcreslin.domain.dto.ProcedureFromHtmlParser;
 import ru.bjcreslin.domain.service.ItemDomainService;
 import ru.bjcreslin.domain.service.RepairProcedureService;
@@ -28,14 +29,15 @@ public class RepairBaseWebController {
         this.repairProcedureService = repairProcedureService;
     }
 
-    @PutMapping("/")
+    @PostMapping("/")
     @ResponseBody
-    public String saveNeeded(@RequestBody ItemDto itemDto) {
-        itemDomainService.saveNeeded(itemDto);
-        if ((itemDto.isNeeded()) && !repairProcedureService.isPresentByUin(itemDto.getUin())) {
-            //todo: доделать
-            repairProcedureService.save(repairProcedureService.getItemByUin(itemDto.getUin()).get());
-        }
+    public String saveNeeded(@RequestBody ProcedureDto itemDto) {
+        //itemDomainService.saveNeeded(itemDto);
+        repairProcedureService.save(repairProcedureService.getItemByUin(itemDto.getUin()).get());
+//        if ((itemDto.isNeeded()) && !repairProcedureService.isPresentByUin(itemDto.getUin())) {
+//            //todo: доделать
+//            repairProcedureService.save(repairProcedureService.getItemByUin(itemDto.getUin()).get());
+//        }
         return "Ok";
     }
 

@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 /**
  * класс для хранения данных, полученных от парсинга данных
  */
-@Document(collection = "overhaul")
+@Document(collection = "saveoverhaul")
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProcedureFromHtmlParser {
