@@ -2,6 +2,7 @@ package ru.bjcreslin.conrollers;
 
 
 import io.swagger.annotations.Api;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -9,31 +10,38 @@ import org.springframework.web.bind.annotation.*;
 import ru.bjcreslin.conrollers.Exception.BadRequestException;
 import ru.bjcreslin.conrollers.Exception.NotFoundException;
 import ru.bjcreslin.domain.dto.DataPage;
-import ru.bjcreslin.domain.dto.ItemDto;
 import ru.bjcreslin.domain.dto.ProcedureDto;
 import ru.bjcreslin.domain.dto.ProcedureFromHtmlParser;
+import ru.bjcreslin.domain.fromHtml.RepaireTradeProcedureParser;
 import ru.bjcreslin.domain.service.ItemDomainService;
 import ru.bjcreslin.domain.service.RepairProcedureService;
 
+import static ru.bjcreslin.configuration.Constants.SAVE_REPAIRED_CONTROLLER;
+
 @CrossOrigin
+@Log
 @Api
 @Controller
-@RequestMapping("/base/repair")
+@RequestMapping(SAVE_REPAIRED_CONTROLLER)
 public class RepairBaseWebController {
     private final ItemDomainService itemDomainService;
     private final RepairProcedureService repairProcedureService;
+    private final RepaireTradeProcedureParser parser;
 
     @Autowired
-    public RepairBaseWebController(ItemDomainService itemDomainService, RepairProcedureService repairProcedureService) {
+    public RepairBaseWebController(ItemDomainService itemDomainService, RepairProcedureService repairProcedureService, RepaireTradeProcedureParser parser) {
         this.itemDomainService = itemDomainService;
         this.repairProcedureService = repairProcedureService;
+        this.parser = parser;
     }
 
     @PostMapping("/")
     @ResponseBody
     public String saveNeeded(@RequestBody ProcedureDto itemDto) {
         //itemDomainService.saveNeeded(itemDto);
-        repairProcedureService.save(repairProcedureService.getItemByUin(itemDto.getUin()).get());
+        ProcedureFromHtmlParser procedureFromHtmlParser=parser.getResult(itemDto.getUin());
+        repairProcedureService.save(procedureFromHtmlParser);
+//        repairProcedureService.save(repairProcedureService.getItemByUin(itemDto.getUin()).get());
 //        if ((itemDto.isNeeded()) && !repairProcedureService.isPresentByUin(itemDto.getUin())) {
 //            //todo: доделать
 //            repairProcedureService.save(repairProcedureService.getItemByUin(itemDto.getUin()).get());

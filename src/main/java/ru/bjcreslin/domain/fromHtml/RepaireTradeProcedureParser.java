@@ -5,6 +5,7 @@ import lombok.extern.java.Log;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import ru.bjcreslin.configuration.Constants;
 import ru.bjcreslin.configuration.RepairsServerConfiguration;
 import ru.bjcreslin.domain.dto.ProcedureFromHtmlParser;
@@ -16,6 +17,7 @@ import java.io.IOException;
  * Сделан из печатных форм объектов
  */
 @Log
+@Service
 public class RepaireTradeProcedureParser {
     private final ProcedureDispacher dispatcher = new RepairsProcedureDispatcher();
 
