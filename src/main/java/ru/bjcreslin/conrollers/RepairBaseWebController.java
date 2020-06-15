@@ -40,6 +40,7 @@ public class RepairBaseWebController {
     public String saveNeeded(@RequestBody ProcedureDto itemDto) {
         //itemDomainService.saveNeeded(itemDto);
         ProcedureFromHtmlParser procedureFromHtmlParser=parser.getResult(itemDto.getUin());
+        log.info(procedureFromHtmlParser.toString());
         repairProcedureService.save(procedureFromHtmlParser);
 //        repairProcedureService.save(repairProcedureService.getItemByUin(itemDto.getUin()).get());
 //        if ((itemDto.isNeeded()) && !repairProcedureService.isPresentByUin(itemDto.getUin())) {

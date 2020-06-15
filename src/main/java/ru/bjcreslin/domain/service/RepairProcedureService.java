@@ -1,6 +1,7 @@
 package ru.bjcreslin.domain.service;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,11 @@ import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatc
 public class RepairProcedureService {
     RepairProcedureRepo procedureRepo;
 
+    @Autowired
+    public RepairProcedureService(RepairProcedureRepo procedureRepo) {
+        this.procedureRepo = procedureRepo;
+    }
+
     /**
      * метод сохранения ProcedureFromHtmlParser в базу Item
      *
@@ -24,7 +30,8 @@ public class RepairProcedureService {
      */
     public ProcedureFromHtmlParser save(ProcedureFromHtmlParser procedureDto) {
         var item = new ProcedureFromHtmlParser();
-        BeanUtils.copyProperties(procedureDto, item);
+        BeanUtils.copyProperties(procedureDto, item,"id");
+
         return procedureRepo.insert(item);
     }
 
